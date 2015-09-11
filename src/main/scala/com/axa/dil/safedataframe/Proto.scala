@@ -36,7 +36,7 @@ object CheckDataFrame {
 }
 
 class SafeDataFrame[T <: HList](val df: DataFrame) extends AnyVal {
-  def apply[U <: Witness](col: U)(implicit tt: BasisConstraint[U :: HNil, T]) = df(col.value.toString)
+  def apply[U <: AnyRef](col: U)(implicit tt: BasisConstraint[Witness.Aux[col.type] :: HNil, T]) = df(col.toString)
 }
 
 object SafeDataFrame {
@@ -62,8 +62,8 @@ object Hello {
 
     sdf.df.filter(df("age") > 18).select("name")
 
-    sdf("name".witness)
-    sdf("notacolumn".witness)  // This fails to compile !
+    sdf("name")
+    sdf("notacolumn")  // This fails to compile !
 
     sc.stop()
   }

@@ -7,7 +7,7 @@ Here is an example of the kind of things I'm trying to do:
 
     val df = sqlContext.read.json("people.json")
     val sdf = SafeDataFrame(df, "name".witness :: HNil)  // Check at runtime the "name" column exists
-    sdf("name".witness)
-    sdf("notacolumn".witness)                            // Does not compile
+    sdf("name")
+    sdf("notacolumn")                            // Does not compile
 
 This does not compile, because "notacolumn" does not exist.
